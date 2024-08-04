@@ -7,9 +7,11 @@ interface Props {
 
 export default function layout({ children }: Props) {
   return (
-    <main className='main-content grid grid-cols-6'>
+    <main className='main-content grid grid-cols-12 grid-rows-12'>
       <Sidebar />
-      <div className='col-span-4'>{children}</div>
+      <div className='col-span-12 row-span-11 sm:row-span-12 sm:col-span-11 lg:col-span-8 xl:col-span-7 overflow-y-auto overflow-x-hidden border-r'>
+        {children}
+      </div>
       <Search />
     </main>
   );

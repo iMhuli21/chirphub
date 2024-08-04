@@ -75,6 +75,6 @@ body {
   }
 
   .main-content {
-    @apply px-5 h-full;
+    @apply px-2 md:px-4 h-full;
   }
 }

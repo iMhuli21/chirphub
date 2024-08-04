@@ -1,3 +1,4 @@
+import { EmailAddress } from '@clerk/nextjs/server';
 import { LuBell, LuHome, LuSearch, LuSettings, LuUser2 } from 'react-icons/lu';
 
 export const routes = [
@@ -27,3 +28,9 @@ export const routes = [
     icon: LuSettings,
   },
 ];
+
+export type User = {
+  imageUrl: string;
+  username: string | null;
+  emailAddress: string;
+};
