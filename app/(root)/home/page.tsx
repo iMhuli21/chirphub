@@ -1,4 +1,5 @@
 import CreatePost from '@/components/create-post';
+import Post from '@/components/post';
 
 export default function Feed() {
   return (
@@ -8,6 +9,26 @@ export default function Feed() {
           <h1 className='text-xl font-extrabold tracking-tight'>Home</h1>
         </div>
         <CreatePost />
+        <div>
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+        </div>
       </section>
     </>
   );
