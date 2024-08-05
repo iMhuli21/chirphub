@@ -77,4 +77,12 @@ body {
   .main-content {
     @apply px-2 md:px-4 h-full;
   }
+
+  .active-tab {
+    @apply relative capitalize before:absolute before:block before:content-[''] before:w-full before:h-1 before:bg-sky-500 before:bottom-0 before:rounded-full;
+  }
+
+  .hover-tab {
+    @apply relative capitalize before:absolute before:block before:content-[''] before:w-full before:h-1 before:bg-sky-500 before:bottom-0 before:rounded-full before:scale-0 before:hover:scale-100 before:transition-transform before:duration-300 before:ease-linear hover:opacity-100;
+  }
 }

@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String           @id @default(auto()) @map("_id") @db.ObjectId
+  comments        Comment[]
+  commentLikes    LikeComment[]
+  commentRetweets RetweetComment[]
+  email           String
+  notifications   Notification[]
+  replies         Reply[]
+  replyLikes      LikeReply[]
+  replyRetweets   RetweetReply[]
+  posts           Post[]
+  postLikes       LikePost[]
+  postRetweets    RetweetPost[]
+  username        String
+  userId          String           @unique
+}
+
+model Post {
+  id        String        @id @default(auto()) @map("_id") @db.ObjectId
+  message   String?
+  images    String[]
+  author    User          @relation(fields: [authorId], references: [userId], onDelete: Cascade)
+  authorId  String
+  comments  Comment[]
+  likes     LikePost[]
+  retweets  RetweetPost[]
+  createdAt DateTime      @default(now())
+}
+
+model Comment {
+  id        String           @id @default(auto()) @map("_id") @db.ObjectId
+  message   String?
+  images    String[]
+  author    User             @relation(fields: [authorId], references: [userId], onDelete: Cascade)
+  authorId  String
+  post      Post             @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    String           @db.ObjectId
+  replies   Reply[]
+  likes     LikeComment[]
+  retweets  RetweetComment[]
+  createdAt DateTime         @default(now())
+}
+
+model Reply {
+  id        String         @id @default(auto()) @map("_id") @db.ObjectId
+  message   String?
+  images    String[]
+  author    User           @relation(fields: [authorId], references: [userId], onDelete: Cascade)
+  authorId  String
+  comment   Comment        @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId String         @db.ObjectId
+  likes     LikeReply[]
+  retweets  RetweetReply[]
+  createdAt DateTime       @default(now())
+}
+
+model LikePost {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  author User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String @db.ObjectId
+}
+
+model LikeComment {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  author    User    @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId    String
+  comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId String  @db.ObjectId
+}
+
+model LikeReply {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  author  User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId  String
+  reply   Reply  @relation(fields: [replyId], references: [id], onDelete: Cascade)
+  replyId String @db.ObjectId
+}
+
+model RetweetPost {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  author User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String @db.ObjectId
+}
+
+model RetweetComment {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  author    User    @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId    String
+  comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId String  @db.ObjectId
+}
+
+model RetweetReply {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  author  User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId  String
+  reply   Reply  @relation(fields: [replyId], references: [id], onDelete: Cascade)
+  replyId String @db.ObjectId
+}
+
+model Notification {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  message    String
+  status     Status   @default(unread)
+  createdAt  DateTime @default(now())
+  reciever   User     @relation(fields: [recieverId], references: [userId], onDelete: Cascade)
+  recieverId String
+}
+
+enum Status {
+  read
+  unread
+}

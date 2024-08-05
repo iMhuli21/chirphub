@@ -29,6 +29,14 @@ export const routes = [
   },
 ];
 
+export const profileTabs = [
+  'posts',
+  'comments',
+  'replies',
+  'likes',
+  'retweets',
+];
+
 export type User = {
   imageUrl: string;
   username: string | null;

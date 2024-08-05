@@ -21,8 +21,8 @@ export default function Post() {
         priority
       />
       <div className='flex flex-col items-start gap-3'>
-        <div className='flex items-center gap-3'>
-          <h2 className='font-medium tracking-tight text-sm'>
+        <div className='flex flex-col items-start sm:flex-row sm:items-center gap-1 sm:gap-3'>
+          <h2 className='font-medium tracking-tight text-sm hover:underline hover:cursor-pointer'>
             SpecialUserName
           </h2>
           <div className='flex items-center gap-1'>

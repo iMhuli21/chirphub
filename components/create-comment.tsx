@@ -7,7 +7,7 @@ import { Textarea } from './ui/textarea';
 import { ImagePlus } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import EmojiPickerComp from './emoji-picker';
-import { getCurrentUser } from '@/app/actions/getCurrentUser';
+import { getCurrentUser } from '@/actions/getCurrentUser';
 
 export default function CreateComment() {
   const [post, setPost] = useState('');

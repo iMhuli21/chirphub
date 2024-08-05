@@ -1,9 +1,13 @@
-import { routes } from '@/lib/constants';
-import { Menu } from 'lucide-react';
 import Link from 'next/link';
+import { Menu } from 'lucide-react';
+import { routes } from '@/lib/constants';
 import { FaXTwitter } from 'react-icons/fa6';
+import { getCurrentUser } from '@/actions/getCurrentUser';
 
-export default function Sidebar() {
+export default async function Sidebar() {
+  const user = await getCurrentUser();
+
+  if (!user) return null;
   return (
     <div className='col-span-12 sm:col-span-1 lg:col-span-2 pt-4 border-r row-span-1 sm:row-span-12'>
       {/*Large Screens */}
@@ -13,7 +17,11 @@ export default function Sidebar() {
           {routes.map((route) => (
             <li key={route.href} className='p-2 w-full '>
               <Link
-                href={route.href}
+                href={
+                  route.href === '/profile'
+                    ? `/profile/${user.username}`
+                    : route.href
+                }
                 className='flex items-end gap-2 hover:opacity-50 transition-opacity duration-300 ease-in-out'
               >
                 <route.icon size={25} />
