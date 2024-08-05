@@ -1,4 +1,5 @@
 import { getCurrentUser } from '@/actions/getCurrentUser';
+import ImageDialog from '@/components/ImageDialog';
 import ProfileTabs from '@/components/profile-tabs';
 import { Button } from '@/components/ui/button';
 import { CalendarDays } from 'lucide-react';
@@ -28,13 +29,7 @@ export default async function Profile({ params: { username } }: Props) {
           }}
           className='w-full relative h-[200px]'
         >
-          <Image
-            src={user.imageUrl}
-            alt='user profile'
-            width={100}
-            height={100}
-            className='border-2 object-center absolute rounded-full -bottom-10 left-7'
-          />
+          <ImageDialog imageUrl={user.imageUrl} />
         </div>
         <div className='mt-4 w-full'>
           <div className='flex items-center justify-end pr-5'>
