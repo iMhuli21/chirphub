@@ -25,42 +25,48 @@ model User {
 }
 
 model Post {
-  id        String        @id @default(auto()) @map("_id") @db.ObjectId
-  message   String?
-  images    String[]
-  author    User          @relation(fields: [authorId], references: [userId], onDelete: Cascade)
-  authorId  String
-  comments  Comment[]
-  likes     LikePost[]
-  retweets  RetweetPost[]
-  createdAt DateTime      @default(now())
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  message        String?
+  images         String[]
+  author         User          @relation(fields: [authorId], references: [userId], onDelete: Cascade)
+  authorId       String
+  authorImage    String
+  authorUsername String
+  comments       Comment[]
+  likes          LikePost[]
+  retweets       RetweetPost[]
+  createdAt      DateTime      @default(now())
 }
 
 model Comment {
-  id        String           @id @default(auto()) @map("_id") @db.ObjectId
-  message   String?
-  images    String[]
-  author    User             @relation(fields: [authorId], references: [userId], onDelete: Cascade)
-  authorId  String
-  post      Post             @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId    String           @db.ObjectId
-  replies   Reply[]
-  likes     LikeComment[]
-  retweets  RetweetComment[]
-  createdAt DateTime         @default(now())
+  id             String           @id @default(auto()) @map("_id") @db.ObjectId
+  message        String?
+  images         String[]
+  author         User             @relation(fields: [authorId], references: [userId], onDelete: Cascade)
+  authorId       String
+  authorImage    String
+  authorUsername String
+  post           Post             @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId         String           @db.ObjectId
+  replies        Reply[]
+  likes          LikeComment[]
+  retweets       RetweetComment[]
+  createdAt      DateTime         @default(now())
 }
 
 model Reply {
-  id        String         @id @default(auto()) @map("_id") @db.ObjectId
-  message   String?
-  images    String[]
-  author    User           @relation(fields: [authorId], references: [userId], onDelete: Cascade)
-  authorId  String
-  comment   Comment        @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  commentId String         @db.ObjectId
-  likes     LikeReply[]
-  retweets  RetweetReply[]
-  createdAt DateTime       @default(now())
+  id             String         @id @default(auto()) @map("_id") @db.ObjectId
+  message        String?
+  images         String[]
+  author         User           @relation(fields: [authorId], references: [userId], onDelete: Cascade)
+  authorId       String
+  authorImage    String
+  authorUsername String
+  comment        Comment        @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId      String         @db.ObjectId
+  likes          LikeReply[]
+  retweets       RetweetReply[]
+  createdAt      DateTime       @default(now())
 }
 
 model LikePost {

@@ -11,10 +11,7 @@ export default async function layout({ children }: Props) {
 
   if (dbUserCheck?.error) {
     console.log(dbUserCheck.error);
-  } else if (dbUserCheck?.success) {
-    console.log(dbUserCheck.success);
   }
-
   return (
     <main className='main-content grid grid-cols-12 grid-rows-12'>
       <Sidebar />

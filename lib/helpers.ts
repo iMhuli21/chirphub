@@ -9,3 +9,11 @@ export function checkFileType(file: File) {
     return false;
   }
 }
+
+export function checkContent(message: string, files: string[]) {
+  if (message.length === 0 && files.length === 0) {
+    return {
+      error: 'Cannot create post, no image or text added.',
+    };
+  }
+}

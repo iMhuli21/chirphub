@@ -44,6 +44,7 @@ export default function ImageDialog({ imageUrl }: Props) {
           toast({
             title: 'Success',
             description: 'Successfully updated Profile Image.',
+            className: 'font-medium tracking-tight',
           });
 
           window.location.href = pathname;
@@ -53,6 +54,7 @@ export default function ImageDialog({ imageUrl }: Props) {
             description:
               'Invalid file type only allowed types are jpg|jpeg|png.',
             variant: 'destructive',
+            className: 'font-medium tracking-tight',
           });
         }
       } else {
@@ -60,6 +62,7 @@ export default function ImageDialog({ imageUrl }: Props) {
           title: 'Error',
           description: 'No file selected.',
           variant: 'destructive',
+          className: 'font-medium tracking-tight',
         });
       }
     } catch (e) {
@@ -68,6 +71,7 @@ export default function ImageDialog({ imageUrl }: Props) {
           title: 'Error',
           description: e.message,
           variant: 'destructive',
+          className: 'font-medium tracking-tight',
         });
       }
     } finally {

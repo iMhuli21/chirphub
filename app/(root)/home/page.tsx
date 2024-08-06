@@ -1,7 +1,18 @@
-import CreatePost from '@/components/create-post';
+import db from '@/lib/db';
 import Post from '@/components/post';
+import CreatePost from '@/components/create-post';
 
-export default function Feed() {
+export default async function Feed() {
+  const data = await db.post.findMany({
+    take: 10,
+    orderBy: {
+      createdAt: 'desc',
+    },
+    include: {
+      likes: true,
+      retweets: true,
+    },
+  });
   return (
     <>
       <section className='pt-4'>
@@ -10,25 +21,15 @@ export default function Feed() {
         </div>
         <CreatePost />
         <div>
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
+          {data.map((post) => (
+            <Post key={post.id} post={post} />
+          ))}
         </div>
+        {data.length === 0 && (
+          <p className='text-sm tracking-tight font-medium text-center mt-10'>
+            No posts available, start posting and fill up the feed.
+          </p>
+        )}
       </section>
     </>
   );
