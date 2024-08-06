@@ -13,6 +13,7 @@ model User {
   commentLikes    LikeComment[]
   commentRetweets RetweetComment[]
   email           String
+  imageUrl        String
   notifications   Notification[]
   replies         Reply[]
   replyLikes      LikeReply[]
@@ -20,8 +21,9 @@ model User {
   posts           Post[]
   postLikes       LikePost[]
   postRetweets    RetweetPost[]
-  username        String
+  username        String           @unique
   userId          String           @unique
+  createdAt       DateTime         @default(now())
 }
 
 model Post {
