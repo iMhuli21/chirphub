@@ -7,7 +7,7 @@ const f = createUploadthing();
 export const ourFileRouter = {
   // Define as many FileRoutes as you like, each with a unique routeSlug
   imageUploader: f({
-    image: { maxFileSize: '2MB', maxFileCount: 4 },
+    image: { maxFileSize: '4MB', maxFileCount: 4 },
   }).onUploadComplete(async () => {
     // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
     return { success: true };

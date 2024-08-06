@@ -8,37 +8,27 @@ import { useToast } from './ui/use-toast';
 import { useRouter } from 'next/navigation';
 import { likePost } from '@/actions/likePost';
 import { formatDistanceToNow } from 'date-fns';
-import { FaRegComment, FaHeart, FaRegHeart, FaRetweet } from 'react-icons/fa6';
 import { RetweetPost } from '@/actions/retweetPost';
+import { FaRegComment, FaHeart, FaRegHeart, FaRetweet } from 'react-icons/fa6';
+import {
+  Comment as CommentType,
+  LikePost,
+  Post as PostType,
+  RetweetPost as RetweetPostType,
+} from '@prisma/client';
 
 interface Props {
   post: {
-    likes: {
-      id: string;
-      userId: string;
-      postId: string;
-    }[];
-    retweets: {
-      id: string;
-      userId: string;
-      postId: string;
-    }[];
-  } & {
-    id: string;
-    message: string | null;
-    images: string[];
-    authorId: string;
-    authorImage: string;
-    authorUsername: string;
-    createdAt: Date;
-  };
+    comments: CommentType[];
+    likes: LikePost[];
+    retweets: RetweetPostType[];
+  } & PostType;
 }
 
 export default function Post({ post }: Props) {
   const route = useRouter();
-  const { toast } = useToast();
   const { user } = useUser();
-  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
   const userLikesPost =
     user && post.likes.some((like) => like.userId === user.id);
@@ -48,7 +38,6 @@ export default function Post({ post }: Props) {
 
   const handleLikePost = async () => {
     try {
-      setLoading(true);
       const res = await likePost(post.id);
 
       if (res?.error) {
@@ -73,14 +62,11 @@ export default function Post({ post }: Props) {
           error: e.message,
         };
       }
-    } finally {
-      setLoading(false);
     }
   };
 
   const handleRetweetPost = async () => {
     try {
-      setLoading(true);
       const res = await RetweetPost(post.id);
 
       if (res?.error) {
@@ -105,8 +91,6 @@ export default function Post({ post }: Props) {
           error: e.message,
         };
       }
-    } finally {
-      setLoading(false);
     }
   };
   return (
@@ -162,7 +146,9 @@ export default function Post({ post }: Props) {
             onClick={() => route.push(`/post/${post.id}`)}
           >
             <FaRegComment className='size-4' />
-            <span>0</span>
+            <span className='font-medium tracking-tight'>
+              {post.comments.length}
+            </span>
           </div>
           <div
             className='flex items-center gap-2 text-sm hover:cursor-pointer hover:opacity-50 transition-opacity duration-300 ease-in-out'
@@ -171,7 +157,9 @@ export default function Post({ post }: Props) {
             <FaRetweet
               className={userRetweetPost ? 'size-5 text-sky-500' : 'size-5'}
             />
-            <span>{post.retweets.length}</span>
+            <span className='font-medium tracking-tight'>
+              {post.retweets.length}
+            </span>
           </div>
           <div
             className='flex items-center gap-2 text-sm hover:cursor-pointer hover:opacity-50 transition-opacity duration-300 ease-in-out'
@@ -182,7 +170,9 @@ export default function Post({ post }: Props) {
             ) : (
               <FaRegHeart className='size-4' />
             )}
-            <span>{post.likes.length}</span>
+            <span className='font-medium tracking-tight'>
+              {post.likes.length}
+            </span>
           </div>
         </div>
       </div>

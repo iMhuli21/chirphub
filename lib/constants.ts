@@ -13,11 +13,6 @@ export const routes = [
     icon: LuSearch,
   },
   {
-    href: '/notifications',
-    label: 'Notifications',
-    icon: LuBell,
-  },
-  {
     href: '/profile',
     label: 'Profile',
     icon: LuUser2,

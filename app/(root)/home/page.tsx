@@ -11,6 +11,7 @@ export default async function Feed() {
     include: {
       likes: true,
       retweets: true,
+      comments: true,
     },
   });
   return (

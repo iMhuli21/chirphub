@@ -17,6 +17,13 @@ export default async function ViewPost({ params: { id } }: Props) {
     include: {
       likes: true,
       retweets: true,
+      comments: {
+        include: {
+          likes: true,
+          retweets: true,
+          replies: true,
+        },
+      },
     },
   });
 
@@ -35,27 +42,17 @@ export default async function ViewPost({ params: { id } }: Props) {
           <h1 className='text-xl font-extrabold tracking-tight'>Post</h1>
         </div>
         <Post post={post} />
-        <CreateComment />
+        <CreateComment postId={post.id} />
         <div>
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
+          {post.comments.map((comment) => (
+            <Comment key={comment.id} comment={comment} />
+          ))}
         </div>
+        {post.comments.length === 0 && (
+          <p className='text-sm tracking-tight font-medium text-center mt-10'>
+            No comments available, start posting and fill up the feed.
+          </p>
+        )}
       </section>
     </>
   );

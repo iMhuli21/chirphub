@@ -30,13 +30,13 @@ export async function RetweetPost(postId: string) {
 
     //if the user has already retweet the post we unlike it
     if (userAlreadyRetweetPost) {
-      const unlikePost = await db.retweetPost.delete({
+      const removeRetweet = await db.retweetPost.delete({
         where: {
           id: userAlreadyRetweetPost.id,
         },
       });
 
-      if (!unlikePost)
+      if (!removeRetweet)
         return {
           error: 'Something went wrong trying to remove retweet from post.',
         };
