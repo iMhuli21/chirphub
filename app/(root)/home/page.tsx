@@ -1,9 +1,10 @@
 import db from '@/lib/db';
+import { cache } from 'react';
 import Post from '@/components/post';
 import CreatePost from '@/components/create-post';
 
-export default async function Feed() {
-  const data = await db.post.findMany({
+const getPosts = cache(async () => {
+  const posts = await db.post.findMany({
     take: 10,
     orderBy: {
       createdAt: 'desc',
@@ -14,6 +15,11 @@ export default async function Feed() {
       comments: true,
     },
   });
+  return posts;
+});
+
+export default async function Feed() {
+  const data = await getPosts();
   return (
     <>
       <section className='pt-4'>

@@ -1,4 +1,5 @@
 import db from '@/lib/db';
+import { cache } from 'react';
 import Post from '@/components/post';
 import Comment from '@/components/comment';
 import CreateComment from '@/components/create-comment';
@@ -9,7 +10,7 @@ interface Props {
   };
 }
 
-export default async function ViewPost({ params: { id } }: Props) {
+const getPost = cache(async (id: string) => {
   const post = await db.post.findUnique({
     where: {
       id,
@@ -26,6 +27,12 @@ export default async function ViewPost({ params: { id } }: Props) {
       },
     },
   });
+
+  return post;
+});
+
+export default async function ViewPost({ params: { id } }: Props) {
+  const post = await getPost(id);
 
   if (!post) {
     return (
