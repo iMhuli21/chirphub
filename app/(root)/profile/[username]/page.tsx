@@ -1,14 +1,14 @@
 import db from '@/lib/db';
 import { cache } from 'react';
-import { getCurrentUser } from '@/actions/getCurrentUser';
-import ImageDialog from '@/components/ImageDialog';
-import ProfileTabs from '@/components/profile-tabs';
-import { Button } from '@/components/ui/button';
-import { CalendarDays } from 'lucide-react';
 import { format } from 'date-fns';
 import Post from '@/components/post';
-import Comment from '@/components/comment';
 import Reply from '@/components/reply';
+import Comment from '@/components/comment';
+import { CalendarDays } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import ImageDialog from '@/components/ImageDialog';
+import ProfileTabs from '@/components/profile-tabs';
+import EditProfile from '@/components/edit-profile';
 
 interface Props {
   params: {
@@ -146,11 +146,7 @@ export default async function Profile({
           <ImageDialog imageUrl={user.imageUrl} />
         </div>
         <div className='mt-4 w-full'>
-          <div className='flex items-center justify-end pr-5'>
-            <Button variant={'outline'} className='rounded-full'>
-              Edit Profile
-            </Button>
-          </div>
+          <EditProfile />
           <div className='pl-3 flex flex-col items-start gap-2'>
             <h2 className='font-medium'>@{username}</h2>
             <div className='flex items-end gap-2 text-sm opacity-50'>

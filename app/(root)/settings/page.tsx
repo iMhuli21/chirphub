@@ -1,5 +1,6 @@
 import { UserIcon } from 'lucide-react';
 import { getCurrentUser } from '@/actions/getCurrentUser';
+import SignOutBtn from '@/components/sign-out-btn';
 
 export default async function Settings() {
   const user = await getCurrentUser();
@@ -29,6 +30,7 @@ export default async function Settings() {
             <h3 className='font-medium'>Email</h3>
             <span className='text-sm opacity-50'>{user.emailAddress}</span>
           </div>
+          <SignOutBtn />
         </div>
       </section>
     </>

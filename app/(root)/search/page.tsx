@@ -1,15 +1,19 @@
 'use client';
 
+import { User as UserType } from '@prisma/client';
 import { SearchIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Post from '@/components/post';
+import { searchAccount } from '@/actions/searchAccount';
+import User from '@/components/user';
 
 export default function SearchResults() {
   const route = useRouter();
+  const { toast } = useToast();
   const [query, setQuery] = useState('');
-  const [data, setData] = useState(false);
+  const [data, setData] = useState<UserType[]>([]);
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -25,10 +29,29 @@ export default function SearchResults() {
   useEffect(() => {
     if (searchParams) {
       if (searchParams.get('query')) {
-        setData(true);
+        const fetchData = async () => {
+          const query = searchParams.get('query') as string;
+
+          const res = await searchAccount(query);
+
+          if (res?.error) {
+            toast({
+              title: 'Error',
+              description: res.error,
+              variant: 'destructive',
+              className: 'font-medium tracking-tight',
+            });
+          }
+
+          if (res?.users) {
+            setData(res.users);
+          }
+        };
+
+        fetchData();
       }
     }
-  }, [searchParams]);
+  }, [searchParams, toast]);
 
   return (
     <>
@@ -47,16 +70,17 @@ export default function SearchResults() {
             />
           </div>
         </div>
-        {data && (
-          <div className='mt-5'>
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
+        {data.length > 0 && (
+          <div className='mt-5 pl-3 space-y-2'>
+            {data.map((user) => (
+              <User key={user.id} user={user} />
+            ))}
           </div>
+        )}
+        {data.length === 0 && searchParams.get('query') && (
+          <p className='flex items-center justify-center tracking-tight font-medium mt-5'>
+            User not found
+          </p>
         )}
       </section>
     </>
