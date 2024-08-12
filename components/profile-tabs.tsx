@@ -13,10 +13,10 @@ export default function ProfileTabs() {
         <li
           className={
             !searchParams.get('tab') && tab === 'posts'
-              ? 'p-2 active-tab'
+              ? 'p-2 active-tab select-none'
               : searchParams.get('tab') === tab
-              ? 'capitalize hover:cursor-pointer p-2 active-tab'
-              : 'capitalize hover:cursor-pointer p-2 hover-tab opacity-50'
+              ? 'capitalize hover:cursor-pointer p-2 active-tab select-none'
+              : 'capitalize hover:cursor-pointer p-2 hover-tab opacity-50 select-none'
           }
           key={tab}
           onClick={() => route.push(`${pathname}?tab=${tab}`)}
