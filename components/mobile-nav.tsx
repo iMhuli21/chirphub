@@ -26,7 +26,7 @@ export default async function MobileNav() {
             <SheetTitle>Mobile Nav</SheetTitle>
             <SheetDescription>Navigate to any page you want</SheetDescription>
           </SheetHeader>
-          <div>
+          <div className='py-4'>
             <ul className='flex flex-col items-start gap-2'>
               {routes.map((route) => (
                 <li key={route.href} className='p-2 w-full '>

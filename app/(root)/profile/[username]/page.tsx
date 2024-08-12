@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import ImageDialog from '@/components/ImageDialog';
 import ProfileTabs from '@/components/profile-tabs';
 import EditProfile from '@/components/edit-profile';
+import { getCurrentUser } from '@/actions/getCurrentUser';
 
 interface Props {
   params: {
@@ -119,9 +120,12 @@ export default async function Profile({
   params: { username },
   searchParams: { tab },
 }: Props) {
-  const user = await getUserData(username);
+  const [queriedUser, loggedInUser] = await Promise.all([
+    getUserData(username),
+    getCurrentUser(),
+  ]);
 
-  if (!user) {
+  if (!queriedUser || !loggedInUser) {
     return (
       <div className='min-h-screen flex items-center justify-center'>
         <p className='font-medium tracking-tight'>User not found</p>
@@ -133,7 +137,7 @@ export default async function Profile({
       <section className='pt-4'>
         <div className='pb-3 border-b pl-4 w-full flex flex-col items-start'>
           <h1 className='text-lg font-medium tracking-tight'>@{username}</h1>
-          <span className='text-sm'>{user.posts.length} Posts</span>
+          <span className='text-sm'>{queriedUser.posts.length} Posts</span>
         </div>
         <div
           style={{
@@ -143,15 +147,17 @@ export default async function Profile({
           }}
           className='w-full relative h-[200px]'
         >
-          <ImageDialog imageUrl={user.imageUrl} />
+          <ImageDialog imageUrl={queriedUser.imageUrl} />
         </div>
         <div className='mt-4 w-full'>
-          <EditProfile />
+          {loggedInUser.username === queriedUser.username && <EditProfile />}
           <div className='pl-3 flex flex-col items-start gap-2'>
             <h2 className='font-medium'>@{username}</h2>
             <div className='flex items-end gap-2 text-sm opacity-50'>
               <CalendarDays />
-              <span>Joined {format(user.createdAt, 'MMMM, do yyyy')}</span>
+              <span>
+                Joined {format(queriedUser.createdAt, 'MMMM, do yyyy')}
+              </span>
             </div>
           </div>
         </div>
@@ -160,14 +166,14 @@ export default async function Profile({
           {/*POSTS */}
           {!tab && (
             <div>
-              {user.posts.map((post) => (
+              {queriedUser.posts.map((post) => (
                 <Post key={post.id} post={post} />
               ))}
             </div>
           )}
           {tab === 'posts' && (
             <div>
-              {user.posts.map((post) => (
+              {queriedUser.posts.map((post) => (
                 <Post key={post.id} post={post} />
               ))}
             </div>
@@ -175,7 +181,7 @@ export default async function Profile({
           {/*Comments */}
           {tab === 'comments' && (
             <div>
-              {user.comments.map((comment) => (
+              {queriedUser.comments.map((comment) => (
                 <Comment key={comment.id} comment={comment} />
               ))}
             </div>
@@ -183,7 +189,7 @@ export default async function Profile({
           {/*Replies */}
           {tab === 'replies' && (
             <div>
-              {user.replies.map((reply) => (
+              {queriedUser.replies.map((reply) => (
                 <Reply key={reply.id} reply={reply} />
               ))}
             </div>
@@ -191,13 +197,13 @@ export default async function Profile({
           {/*LIKES */}
           {tab === 'likes' && (
             <div>
-              {user.commentLikes.map((comment) => (
+              {queriedUser.commentLikes.map((comment) => (
                 <Comment key={comment.id} comment={comment.comment} />
               ))}
-              {user.postLikes.map((post) => (
+              {queriedUser.postLikes.map((post) => (
                 <Post key={post.id} post={post.post} />
               ))}
-              {user.replyLikes.map((reply) => (
+              {queriedUser.replyLikes.map((reply) => (
                 <Reply key={reply.id} reply={reply.reply} />
               ))}
             </div>
@@ -205,13 +211,13 @@ export default async function Profile({
           {/*Retweets */}
           {tab === 'retweets' && (
             <div>
-              {user.commentRetweets.map((comment) => (
+              {queriedUser.commentRetweets.map((comment) => (
                 <Comment key={comment.id} comment={comment.comment} />
               ))}
-              {user.postRetweets.map((post) => (
+              {queriedUser.postRetweets.map((post) => (
                 <Post key={post.id} post={post.post} />
               ))}
-              {user.replyRetweets.map((reply) => (
+              {queriedUser.replyRetweets.map((reply) => (
                 <Reply key={reply.id} reply={reply.reply} />
               ))}
             </div>
