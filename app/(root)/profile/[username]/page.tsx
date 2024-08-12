@@ -149,7 +149,13 @@ export default async function Profile({
         >
           <ImageDialog imageUrl={queriedUser.imageUrl} />
         </div>
-        <div className='mt-4 w-full'>
+        <div
+          className={
+            loggedInUser.username === queriedUser.username
+              ? 'mt-4 w-full'
+              : 'mt-8 w-full'
+          }
+        >
           {loggedInUser.username === queriedUser.username && <EditProfile />}
           <div className='pl-3 flex flex-col items-start gap-2'>
             <h2 className='font-medium'>@{username}</h2>
