@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { Menu } from 'lucide-react';
 import { routes } from '@/lib/constants';
 import { FaXTwitter } from 'react-icons/fa6';
 import { getCurrentUser } from '@/actions/getCurrentUser';
+import MobileNav from './mobile-nav';
 
 export default async function Sidebar() {
   const user = await getCurrentUser();
@@ -46,9 +46,7 @@ export default async function Sidebar() {
           ))}
         </ul>
       </div>
-      <div className='block sm:hidden '>
-        <Menu />
-      </div>
+      <MobileNav />
     </div>
   );
 }
